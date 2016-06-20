@@ -74,7 +74,7 @@ download_tile(const uint32_t tile_x,
   char url[1024];
   char output[FILENAME_MAX];
   
-  const char * api_key = "your_api_key";
+  const char * api_key = "pk.eyJ1IjoicGhpbGNrIiwiYSI6ImNpZ2VyaHp3NzJnaHh1aWx5MGV0Yjkyb2EifQ.RwoRhhhoR8UuhsGMkOpANw";
   
   sprintf(url, "https://api.mapbox.com/v4/mapbox.streets/%d/%d/%d.png?access_token=%s", zoom, tile_x, tile_y, api_key);
   
@@ -101,7 +101,7 @@ download_tile(const uint32_t tile_x,
 
 } // ns
 
-
+#include <OpenGL/gl3.h>
 
 int
 main()
@@ -113,8 +113,6 @@ main()
   sdl::window win(512, 512, false);
   sdl::ogl_context ogl(win);
   
-
-  
   sdl::message_callback_register([&](const SDL_Event &event) -> bool
   {
     return ImGui_ImplSdlGL3_ProcessEvent(&event);
@@ -125,6 +123,10 @@ main()
   // Initialize Ogl
   Graphics_api::initialize();
   Graphics_api::clear_color_set(0.3f, 0.4f, 0.3f);
+  
+  GLint size;
+  glGetIntegerv(GL_MAX_TEXTURE_SIZE, &size);
+
   
   // Create a mesh
   Graphics_api::Mesh mesh;
@@ -224,7 +226,7 @@ main()
       }
     )";
     
-    constexpr const char *ps_shader = R"(Native8MyBurger
+    constexpr const char *ps_shader = R"(
     
       // Frag shader
      #version 150
